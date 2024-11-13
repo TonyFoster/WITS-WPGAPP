@@ -1,0 +1,38 @@
+<!-- Modal Background -->
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <!-- Modal Content -->
+  <div class="bg-white w-11/12 max-w-md p-6 rounded-lg shadow-lg space-y-6 text-center">
+    <!-- Modal Title -->
+    <h2 class="text-2xl font-semibold text-gray-800">Set Name</h2>
+
+    <!-- Input with Selectable Suggestions -->
+    <div class="relative">
+      <label for="nameInput" class="block text-gray-600 mb-2">Enter or Select Your Name</label>
+      <input
+        id="nameInput"
+        [(ngModel)]="selectedName"
+        (input)="filterNames()"
+        type="text"
+        placeholder="Type or select your name"
+        class="w-full p-2 border border-gray-300 rounded-lg"
+      />
+
+      <!-- Suggestions Dropdown -->
+      <ul *ngIf="filteredNames.length > 0" class="absolute left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 max-h-40 overflow-y-auto z-10">
+        <li
+          *ngFor="let name of filteredNames"
+          (click)="selectName(name)"
+          class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        >
+          {{ name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Modal Actions -->
+    <div class="flex justify-end space-x-2 mt-4">
+      <button (click)="close()" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+      <button (click)="submit()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Submit</button>
+    </div>
+  </div>
+</div>

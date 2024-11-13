@@ -1,0 +1,47 @@
+# Angular
+node_modules/
+dist/
+tmp/
+*.log
+.angular/
+
+# Compiled output
+out-tsc/
+*.js.map
+*.d.ts
+
+# Environment files
+src/environments/environment*.ts
+
+# IDE directories and files
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+.idea_modules/
+.idea/*
+.idea/**
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+
+# Ubuntu
+*~
+.cache
+.local
+.config
+
+# Other OS generated files
+.Trashes
+.fseventsd
+.Spotlight-V100

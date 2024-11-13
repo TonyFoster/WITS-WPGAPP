@@ -1,0 +1,98 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
+  <!-- Title Section -->
+  <div class="text-center mb-4">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">WITS-WPG</h1>
+    <h2 class="text-3xl sm:text-5xl font-extrabold text-gray-800">OnSite APP</h2>
+  </div>
+
+  <!-- MOTD Section -->
+  <div class="mb-8 text-center">
+    <p *ngIf="name" class="text-lg sm:text-xl text-gray-600">
+      Hi, {{ name }}
+    </p>
+    <p class="text-lg sm:text-xl text-gray-600">
+      {{ motd }}
+    </p>
+  </div>
+
+  <!-- Check Button -->
+  <button
+    (click)="check()"
+    class="w-full sm:w-auto bg-black text-white font-medium py-4 px-8 rounded-full hover:bg-gray-800 transition mb-12 text-xl"
+  >
+    Check
+  </button>
+
+  <!--  error message -->
+  <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <strong class="font-bold">Error!</strong>
+    <span class="block sm:inline">{{ errorMessage }}</span>
+  </div>
+
+  <!-- Function Menu -->
+  <div class="w-full max-w-3xl grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+
+    <!-- Select Lunch Option Button -->
+    <button
+      (click)="viewAttendanceRecords()"
+      class="w-full bg-white border border-gray-300 text-gray-800 font-medium py-4 px-6 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-3"
+    >
+      <i class="fas fa-clipboard-list text-gray-800 text-2xl"></i>
+      <span>Select Today Lunch</span>
+    </button>
+
+    <!-- View Attendance Records Button -->
+    <button
+      (click)="viewAttendanceRecords()"
+      class="w-full bg-white border border-gray-300 text-gray-800 font-medium py-4 px-6 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-3"
+    >
+      <i class="fas fa-clipboard-list text-gray-800 text-2xl"></i>
+      <span>View Attendance Records</span>
+    </button>
+
+    <!-- Request Leave Button -->
+    <button
+      (click)="requestLeave()"
+      class="w-full bg-white border border-gray-300 text-gray-800 font-medium py-4 px-6 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-3"
+    >
+      <i class="fas fa-calendar-check text-gray-800 text-2xl"></i>
+      <span>Request Leave</span>
+    </button>
+
+    <!-- Enable Notifications Button -->
+    <button
+      (click)="enableNotifications()"
+      class="w-full bg-white border border-gray-300 text-gray-800 font-medium py-4 px-6 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-3"
+    >
+      <i class="fas fa-bell text-gray-800 text-2xl"></i>
+      <span>Enable Notifications</span>
+    </button>
+
+    <!-- Set Name Button -->
+    <button
+      (click)="setName()"
+      class="w-full bg-white border border-gray-300 text-gray-800 font-medium py-4 px-6 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-3"
+    >
+      <i class="fas fa-user-cog text-gray-800 text-2xl"></i>
+      <span>Set Name</span>
+    </button>
+
+    <!-- Update MOTD Button -->
+    <button
+      (click)="updateMOTD()"
+      class="w-full bg-white border border-gray-300 text-gray-800 font-medium py-4 px-6 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-3 col-span-full"
+    >
+      <i class="fas fa-edit text-gray-800 text-2xl"></i>
+      <span>Update MOTD</span>
+    </button>
+
+    <!-- About Button -->
+    <button
+      (click)="updateMOTD()"
+      class="w-full bg-white border border-gray-300 text-gray-800 font-medium py-4 px-6 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-3 col-span-full"
+    >
+      <i class="fas fa-edit text-gray-800 text-2xl"></i>
+      <span>About</span>
+    </button>
+  </div>
+</div>
