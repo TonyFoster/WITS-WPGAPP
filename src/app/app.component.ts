@@ -28,18 +28,18 @@ export class AppComponent {
       return;
     }
 
-    this.http.post(this.checkUrl, {name: this.name}).subscribe((response: any) => {
-      if (response.error) {
-        this.error(response.error);
-      } else {
-        this.error('You are not checked in!');
+    this.http.post<any>(this.checkUrl, { name: this.name }).subscribe({
+      next: (result) => {
+        alert("Success!");
+      },
+      error: (err) => {
+        this.error(JSON.stringify(err.error));
       }
     });
 
   }
 
   error(message: string) {
-    console.error(message);
     this.errorMessage = message;
   }
 
