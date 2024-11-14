@@ -9,7 +9,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 export class NameSelectorModalComponent {
 
   selectedName: string = '';
-  names: string[] = ['侯性男', '劉仁傑', '陳祈男', '吳印', '虞振華', '盧宥銨', '鍾學明', '林昶翰'];
+  names: string[] = ['侯性男', '劉仁傑', '陳祈男', '吳印', '虞振華', '盧宥銨', '鍾學明', '林昶翰', '沈羽碒'];
   filteredNames: string[] = [];
 
   constructor(public dialogRef: MatDialogRef<NameSelectorModalComponent>,
