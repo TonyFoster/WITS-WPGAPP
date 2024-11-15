@@ -7,7 +7,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class HoldButtonComponent {
   isHolding = false;
-  progress = 10;
+  progress = 0;
   private interval: any;
   @Output() clicked = new EventEmitter<void>();
   @Output() touched = new EventEmitter<void>();
@@ -16,7 +16,7 @@ export class HoldButtonComponent {
   startHold() {
     this.touched.emit();
     this.isHolding = true;
-    this.progress = 10;
+    this.progress = 20;
     this.interval = setInterval(() => {
       this.progress += 1;
       if (this.progress >= 100) {
@@ -28,7 +28,7 @@ export class HoldButtonComponent {
 
   cancelHold() {
     this.isHolding = false;
-    this.progress = 10;
+    this.progress = 0;
     clearInterval(this.interval);
   }
 

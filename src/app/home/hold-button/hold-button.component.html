@@ -2,7 +2,9 @@
   <button
     class="w-full h-12 py-4 px-8 mb-12 text-xl rounded-full bg-black shadow-md text-white font-medium flex items-center justify-center transition"
     (mousedown)="startHold()"
+    (touchstart)="startHold()"
     (mouseup)="cancelHold()"
+    (touchend)="cancelHold()"
     (mouseleave)="cancelHold()"
   >
 

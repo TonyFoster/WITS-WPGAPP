@@ -24,7 +24,6 @@ export class AttendanceRecordsComponent {
   }
 
   getAttendanceRecords(): void {
-    console.log("getAttendanceRecords");
     this.http.get<AttendanceRecord[]>(this.recordsUrl + '?name=' + this.name).subscribe({
       next: (records) => {
         this.records = records;
