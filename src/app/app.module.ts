@@ -13,13 +13,15 @@ import {MatButton} from '@angular/material/button';
 import {provideHttpClient} from '@angular/common/http';
 import {AttendanceRecordsComponent} from './attendance-records/attendance-records.component';
 import { HomeComponent } from './home/home.component';
+import { HoldButtonComponent } from './home/hold-button/hold-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NameSelectorModalComponent,
     AttendanceRecordsComponent,
-    HomeComponent
+    HomeComponent,
+    HoldButtonComponent
   ],
   imports: [
     BrowserModule,

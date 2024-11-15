@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {MatDialog} from '@angular/material/dialog';
@@ -27,6 +27,9 @@ export class HomeComponent {
   }
 
   check() {
+    if (this.checkButtonText !== 'Check') {
+      return;
+    }
     this.errorMessage = '';
     if (this.name === '') {
       this.error('Please set your name first!');
@@ -101,4 +104,5 @@ export class HomeComponent {
   updateMOTD() {
 
   }
+
 }

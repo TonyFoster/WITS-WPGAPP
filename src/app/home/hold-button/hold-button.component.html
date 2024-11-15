@@ -1,0 +1,18 @@
+<div class="relative">
+  <button
+    class="w-full h-12 py-4 px-8 mb-12 text-xl rounded-full bg-black shadow-md text-white font-medium flex items-center justify-center transition"
+    (mousedown)="startHold()"
+    (mouseup)="cancelHold()"
+    (mouseleave)="cancelHold()"
+  >
+
+    <div
+      *ngIf="isHolding"
+      class="absolute left-0 top-0 h-full bg-gray-800 rounded-full"
+      [style.width.%]="progress"
+    ></div>
+
+    <span class="relative z-10">{{ buttonText }}</span>
+
+  </button>
+</div>
