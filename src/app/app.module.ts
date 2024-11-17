@@ -12,8 +12,11 @@ import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {provideHttpClient} from '@angular/common/http';
 import {AttendanceRecordsComponent} from './attendance-records/attendance-records.component';
-import { HomeComponent } from './home/home.component';
-import { HoldButtonComponent } from './home/hold-button/hold-button.component';
+import {HomeComponent} from './home/home.component';
+import {HoldButtonComponent} from './home/hold-button/hold-button.component';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFireMessagingModule} from '@angular/fire/compat/messaging';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { HoldButtonComponent } from './home/hold-button/hold-button.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireMessagingModule,
     MatFormField,
     MatSelect,
     FormsModule,
