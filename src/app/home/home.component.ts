@@ -1,16 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {MatDialog} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 import {NameSelectorModalComponent} from '../name-selector-modal/name-selector-modal.component';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   name: string = '';
   motd: string = '';
@@ -20,10 +21,19 @@ export class HomeComponent {
   lastCheckTimeUrl = 'https://api.tony19907051.com/wits/lastCheckTime';
   lastCheckTime: Date = new Date();
 
-  constructor(private router: Router, public cookieService: CookieService, private dialog: MatDialog, private http: HttpClient) {
-    this.getName();
-    this.getMOTD();
-    this.getLastCheckTime();
+  constructor(private router: Router,
+              public cookieService: CookieService,
+              private dialog: MatDialog,
+              private http: HttpClient,
+              @Inject(PLATFORM_ID) private platformId: Object) {
+  }
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.getName();
+      this.getMOTD();
+      this.getLastCheckTime();
+    }
   }
 
   check() {
