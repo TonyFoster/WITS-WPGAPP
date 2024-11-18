@@ -1,6 +1,6 @@
 // Import Firebase scripts (ensure these URLs are accessible in your app)
-importScripts('/firebase-app.js');
-importScripts('/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/10.6.0/firebase-messaging.js');
 
 // Initialize Firebase
 firebase.initializeApp({
