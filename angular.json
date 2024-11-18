@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "WITS-WPG-OnSite-APP": {
+    "WITS-WPGAPP": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/wits-wpg-on-site-app",
+            "outputPath": "dist/wits-wpgapp",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -37,7 +37,6 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": [],
@@ -61,7 +60,8 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "WITS-WPG-OnSite-APP:build:production"
+              "buildTarget": "WITS-WPGAPP:build:production"
             },
             "development": {
-              "buildTarget": "WITS-WPG-OnSite-APP:build:development"
+              "buildTarget": "WITS-WPGAPP:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -101,7 +101,6 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -111,6 +110,6 @@
     }
   },
   "cli": {
-    "analytics": "6839e273-a022-474d-ab8a-a1b8ab0d517a"
+    "analytics": "cc3a9f7d-7d1a-4528-8fe1-88222cca6da6"
   }
 }
