@@ -115,4 +115,7 @@ export class HomeComponent implements OnInit {
 
   }
 
+  attendanceConverter() {
+    this.router.navigate(['/attendance-converter']).then();
+  }
 }

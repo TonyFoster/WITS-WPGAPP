@@ -1,0 +1,51 @@
+<div class="p-4">
+  <h1 class="text-2xl font-bold text-center mb-4">Format Times from Excel</h1>
+  <input
+    type="file"
+    (change)="handleFile($event)"
+    accept=".xlsx, .xls"
+    class="block w-full max-w-md mx-auto mb-4 px-4 py-2 border border-gray-300 rounded-lg"
+  />
+
+  <div>
+    <!-- Tabs -->
+    <div class="flex border-b border-gray-200">
+      <button
+        *ngFor="let tab of tabs; let i = index"
+        (click)="setActiveTab(i)"
+        [class.text-blue-600]="activeTabIndex === i"
+        [class.border-blue-600]="activeTabIndex === i"
+        class="px-4 py-2 text-sm font-medium text-gray-600 border-b-2 border-transparent hover:text-blue-600 focus:outline-none"
+      >
+        {{ tab.name }}
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div *ngFor="let tab of tabs; let i = index" [hidden]="activeTabIndex !== i" class="mt-4">
+      <table class="table-auto w-full border-collapse border border-gray-300">
+        <thead>
+        <tr class="bg-gray-50 text-left">
+          <th class="border border-gray-300 px-4 py-2">Date</th>
+          <th class="border border-gray-300 px-4 py-2">Start</th>
+          <th class="border border-gray-300 px-4 py-2">Finish</th>
+          <th class="border border-gray-300 px-4 py-2">Total Hrs</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of tab.data" class="hover:bg-gray-100">
+          <td class="border border-gray-300 px-4 py-2">{{ row.date }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ row.start }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ row.end }}</td>
+          <td
+            [ngClass]="{'text-red-500': Number(row.total) < 8 && row.total !== ''}"
+            class="border border-gray-300 px-4 py-2"
+          >
+            {{ adjustedTotal(row.total) }}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

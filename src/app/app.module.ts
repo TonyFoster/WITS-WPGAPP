@@ -12,6 +12,7 @@ import {FormsModule} from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideHttpClient} from '@angular/common/http';
+import {AttendanceConverterComponent} from './attendance-converter/attendance-converter.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {provideHttpClient} from '@angular/common/http';
     NameSelectorModalComponent,
     AttendanceRecordsComponent,
     HomeComponent,
-    HoldButtonComponent
+    HoldButtonComponent,
+    AttendanceConverterComponent
   ],
   imports: [
     BrowserModule,
