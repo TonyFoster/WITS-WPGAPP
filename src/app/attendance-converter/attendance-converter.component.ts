@@ -12,11 +12,13 @@ export class AttendanceConverterComponent {
   activeTabIndex: number = 0;
 
   data: any;
-  colHeaders= ['Date', 'Start', 'End', 'Total Hrs'];
+  colHeaders= ['Date', 'Start', 'Finish', 'AB Hrs', 'OT Hrs', 'Total Hrs'];
   columns= [
     { data: 'Date', readOnly: true },
     { data: 'Start', readOnly: true },
-    { data: 'End', readOnly: true },
+    { data: 'Finish', readOnly: true },
+    { data: 'AB Hrs', type: 'numeric' },
+    { data: 'OT Hrs', type: 'numeric' },
     { data: 'Total Hrs', type: 'numeric' },
   ];
   rowHeaders= true;
@@ -122,12 +124,12 @@ export class AttendanceConverterComponent {
         const dateKey = this.formatDate(date);
         const entry = dict[dateKey];
         let start = '';
-        let end = '';
+        let finish = '';
         let total = '';
 
         if (entry) {
           start = this.formatTime(entry.start);
-          end = this.formatTime(entry.end);
+          finish = this.formatTime(entry.end);
 
           const totalMinutes = (entry.end.getTime() - entry.start.getTime()) / (1000 * 60);
           let totalHours = totalMinutes / 60;
@@ -140,7 +142,9 @@ export class AttendanceConverterComponent {
         return {
           Date: dateKey,
           Start: start,
-          End: end,
+          Finish: finish,
+          'AB Hrs': '',
+          'OT Hrs': '',
           'Total Hrs': this.adjustedTotal(total),
         };
       });
