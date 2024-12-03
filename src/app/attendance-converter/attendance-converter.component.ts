@@ -4,13 +4,31 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-attendance-converter',
   templateUrl: './attendance-converter.component.html',
-  styleUrl: './attendance-converter.component.css'
+  styleUrl: './attendance-converter.component.css',
 })
 export class AttendanceConverterComponent {
   workbook: XLSX.WorkBook | undefined;
-  tabs: { name: string; data: { date: string; start: string; end: string; total: string }[] }[] = [];
+  tabs: { name: string; data: any[] }[] = [];
   activeTabIndex: number = 0;
-  outputHtml: string = '';
+
+  data: any;
+  colHeaders= ['Date', 'Start', 'End', 'Total Hrs'];
+  columns= [
+    { data: 'Date', readOnly: true },
+    { data: 'Start', readOnly: true },
+    { data: 'End', readOnly: true },
+    { data: 'Total Hrs', type: 'numeric' },
+  ];
+  rowHeaders= true;
+  width= '100%';
+  licenseKey= 'non-commercial-and-evaluation';
+  cell= [
+    {
+      row: 2,
+      col: 2,
+      className: 'test',
+    },
+  ];
 
   handleFile(event: any) {
     const file = event.target.files[0];
@@ -23,38 +41,51 @@ export class AttendanceConverterComponent {
     reader.onload = (e: any) => {
       const data = e.target.result;
       this.workbook = XLSX.read(data, { type: 'binary' });
-      this.formatTimes();
+      this.initializeTabs();
     };
     reader.onerror = (error) => console.error(error);
     reader.readAsBinaryString(file);
   }
 
-  formatTimes(): void {
+  initializeTabs(): void {
     if (!this.workbook) {
       alert('Please upload an Excel file first.');
       return;
     }
 
-    const firstSheetName = this.workbook.SheetNames[0];
-    const worksheet = this.workbook.Sheets[firstSheetName];
-    const jsonData: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
     const timestampsByName: { [name: string]: Date[] } = {};
-    for (let i = 1; i < jsonData.length; i++) {
-      const row = jsonData[i];
-      if (row[2] && row[7]) {
-        const name = row[7];
-        const excelDate = row[2];
-        const jsDate = this.convertExcelDateToJSDate(excelDate);
-        if (!timestampsByName[name]) {
-          timestampsByName[name] = [];
+    let mostRecentDate = new Date(0); // Initialize to a very old date
+
+    this.workbook.SheetNames.forEach((sheetName) => {
+      const worksheet = this.workbook!.Sheets[sheetName];
+      const jsonData: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      for (let i = 1; i < jsonData.length; i++) {
+        const row = jsonData[i];
+        if (row[2] && row[7]) {
+          const name = row[7];
+          const excelDate = row[2];
+          const jsDate = this.convertExcelDateToJSDate(excelDate);
+          if (!timestampsByName[name]) {
+            timestampsByName[name] = [];
+          }
+          timestampsByName[name].push(jsDate);
+          if (jsDate > mostRecentDate) {
+            mostRecentDate = jsDate; // Update most recent date found
+          }
         }
-        timestampsByName[name].push(jsDate);
       }
-    }
+    });
+
+    const mostRecentYear = mostRecentDate.getFullYear();
+    const mostRecentMonth = mostRecentDate.getMonth();
 
     this.tabs = Object.keys(timestampsByName).map((name) => {
-      const timestamps = timestampsByName[name];
+      // Filter timestamps to include only the most recent month and year found
+      const timestamps = timestampsByName[name].filter(date =>
+        date.getFullYear() === mostRecentYear && date.getMonth() === mostRecentMonth
+      );
+
       const dict: { [key: string]: { start: Date; end: Date } } = {};
       const dateArray: Date[] = [];
 
@@ -75,18 +106,18 @@ export class AttendanceConverterComponent {
         }
       });
 
-      // Ensure all dates in the range are included
-      dateArray.sort((a, b) => a.getTime() - b.getTime());
-      const firstDate = new Date(dateArray[0]);
-      const lastDate = new Date(dateArray[dateArray.length - 1]);
+      // Generate all dates for the month
       const allDates: Date[] = [];
+      const startDate = new Date(mostRecentYear, mostRecentMonth, 1);
+      const endDate = new Date(mostRecentYear, mostRecentMonth + 1, 0);
+      let currentDate = new Date(startDate);
 
-      let currentDate = new Date(firstDate);
-      while (currentDate <= lastDate) {
+      while (currentDate <= endDate) {
         allDates.push(new Date(currentDate));
         currentDate.setDate(currentDate.getDate() + 1);
       }
 
+      // Map through all dates to create table data
       const tableData = allDates.map((date) => {
         const dateKey = this.formatDate(date);
         const entry = dict[dateKey];
@@ -107,10 +138,10 @@ export class AttendanceConverterComponent {
         }
 
         return {
-          date: dateKey,
-          start,
-          end,
-          total,
+          Date: dateKey,
+          Start: start,
+          End: end,
+          'Total Hrs': this.adjustedTotal(total),
         };
       });
 
@@ -118,16 +149,27 @@ export class AttendanceConverterComponent {
     });
   }
 
+
   setActiveTab(index: number): void {
     this.activeTabIndex = index;
+    this.data = this.tabs[index].data;
+
   }
 
 
-  private convertExcelDateToJSDate(excelDate: number): Date {
-    const utcDate = new Date((excelDate - (25567 + 1)) * 86400 * 1000);
-    // Adjust to UTC+8
-    const offsetMilliseconds = 8 * 60 * 60 * 1000; // 8 hours in milliseconds
-    return new Date(utcDate.getTime() - offsetMilliseconds);
+
+  convertExcelDateToJSDate(excelDate: number): Date {
+    const baseDate = new Date(Date.UTC(1900, 0, 1));
+    const days = Math.floor(excelDate) - (excelDate > 60 ? 2 : 1);
+    const fractionOfDay = excelDate - Math.floor(excelDate);
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    baseDate.setUTCDate(baseDate.getUTCDate() + days);
+    baseDate.setUTCMilliseconds(baseDate.getUTCMilliseconds() + (fractionOfDay * millisecondsPerDay));
+
+    // Adjust the baseDate to UTC+8
+    const utc8Date = new Date(baseDate.getTime() - 8 * 60 * 60 * 1000);
+
+    return utc8Date;
   }
 
   private formatDate(date: Date): string {
@@ -144,8 +186,6 @@ export class AttendanceConverterComponent {
     return `${hours}:${minutesStr}`;
   }
 
-  protected readonly Number = Number;
-
   adjustedTotal(value: any): any {
     if (value === '' || value == null) {
       return ''; // Keep empty values as they are
@@ -153,6 +193,4 @@ export class AttendanceConverterComponent {
     const total = Math.floor(Number(value));
     return total > 8 ? 8 : total;
   }
-
-
 }

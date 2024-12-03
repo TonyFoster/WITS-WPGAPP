@@ -13,6 +13,10 @@ import {CookieService} from 'ngx-cookie-service';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideHttpClient} from '@angular/common/http';
 import {AttendanceConverterComponent} from './attendance-converter/attendance-converter.component';
+import {HotTableModule} from '@handsontable/angular';
+import {registerAllModules} from 'handsontable/registry';
+
+registerAllModules();
 
 @NgModule({
   declarations: [
@@ -32,7 +36,8 @@ import {AttendanceConverterComponent} from './attendance-converter/attendance-co
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    FormsModule
+    FormsModule,
+    HotTableModule
   ],
   providers: [
     provideClientHydration(),
