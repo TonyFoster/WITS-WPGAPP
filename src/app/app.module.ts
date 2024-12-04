@@ -14,9 +14,6 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {provideHttpClient} from '@angular/common/http';
 import {AttendanceConverterComponent} from './attendance-converter/attendance-converter.component';
 import {HotTableModule} from '@handsontable/angular';
-import {registerAllModules} from 'handsontable/registry';
-
-registerAllModules();
 
 @NgModule({
   declarations: [

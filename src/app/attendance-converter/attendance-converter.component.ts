@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Inject, PLATFORM_ID} from '@angular/core';
 import * as XLSX from 'xlsx';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-attendance-converter',
@@ -31,6 +32,12 @@ export class AttendanceConverterComponent {
       className: 'test',
     },
   ];
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 
   handleFile(event: any) {
     const file = event.target.files[0];

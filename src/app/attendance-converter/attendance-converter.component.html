@@ -19,7 +19,7 @@
     </button>
   </div>
 
-  <div class="mt-4">
+  <div class="mt-4" *ngIf="isBrowser()">
     <hot-table [data]="data" [cell]="cell" [colHeaders]="colHeaders" [rowHeaders]="rowHeaders" [licenseKey]="licenseKey" [width]="width" stretchH="all"></hot-table>
   </div>
 
