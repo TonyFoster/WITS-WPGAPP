@@ -13,27 +13,22 @@ export class AttendanceConverterComponent {
   activeTabIndex: number = 0;
 
   data: any;
-  colHeaders= ['Date', 'Start', 'Finish', 'AB Hrs', 'OT Hrs', 'Total Hrs'];
-  columns= [
-    { data: 'Date', readOnly: true },
-    { data: 'Start', readOnly: true },
-    { data: 'Finish', readOnly: true },
-    { data: 'AB Hrs', type: 'numeric' },
-    { data: 'OT Hrs', type: 'numeric' },
-    { data: 'Total Hrs', type: 'numeric' },
+  colHeaders = ['Date', 'Start', 'Finish', 'AB Hrs', 'OT Hrs', 'Total Hrs'];
+  columns = [
+    {data: 'Date', readOnly: true},
+    {data: 'Start', readOnly: true},
+    {data: 'Finish', readOnly: true},
+    {data: 'AB Hrs', type: 'numeric'},
+    {data: 'OT Hrs', type: 'numeric'},
+    {data: 'Total Hrs', type: 'numeric'},
   ];
-  rowHeaders= true;
-  width= '100%';
-  licenseKey= 'non-commercial-and-evaluation';
-  cell= [
-    {
-      row: 2,
-      col: 2,
-      className: 'test',
-    },
-  ];
+  rowHeaders = true;
+  width = '100%';
+  licenseKey = 'non-commercial-and-evaluation';
+  cell: any[] = [];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  }
 
   isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -49,7 +44,7 @@ export class AttendanceConverterComponent {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const data = e.target.result;
-      this.workbook = XLSX.read(data, { type: 'binary' });
+      this.workbook = XLSX.read(data, {type: 'binary'});
       this.initializeTabs();
     };
     reader.onerror = (error) => console.error(error);
@@ -67,7 +62,7 @@ export class AttendanceConverterComponent {
 
     this.workbook.SheetNames.forEach((sheetName) => {
       const worksheet = this.workbook!.Sheets[sheetName];
-      const jsonData: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      const jsonData: any[][] = XLSX.utils.sheet_to_json(worksheet, {header: 1});
 
       for (let i = 1; i < jsonData.length; i++) {
         const row = jsonData[i];
@@ -103,7 +98,7 @@ export class AttendanceConverterComponent {
         const dateKey = this.formatDate(dateObj);
 
         if (!dict[dateKey]) {
-          dict[dateKey] = { start: timestamp, end: timestamp };
+          dict[dateKey] = {start: timestamp, end: timestamp};
           dateArray.push(dateObj);
         } else {
           if (timestamp < dict[dateKey].start) {
@@ -156,7 +151,7 @@ export class AttendanceConverterComponent {
         };
       });
 
-      return { name, data: tableData };
+      return {name, data: tableData};
     });
   }
 
@@ -164,9 +159,22 @@ export class AttendanceConverterComponent {
   setActiveTab(index: number): void {
     this.activeTabIndex = index;
     this.data = this.tabs[index].data;
-
+    this.cell = this.updateHighlightRow(this.data);
   }
 
+  updateHighlightRow(data: any[]): any[] {
+    let cell: any[] = [];
+    data.forEach((row, index) => {
+      if (new Date(row['Date']).getDay() > 0 && new Date(row['Date']).getDay() < 6) {
+        if (row['Total Hrs'] != 8) {
+          for (let i = 0; i < Object.keys(row).length; i++) {
+            cell.push({row: index, col: i, className: 'red'});
+          }
+        }
+      }
+    });
+    return cell;
+  }
 
 
   convertExcelDateToJSDate(excelDate: number): Date {
