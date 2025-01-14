@@ -1,0 +1,34 @@
+<div class="p-6 max-w-xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4">Chat Bot</h1>
+
+  <!-- Image Upload -->
+  <div class="mb-4">
+    <label class="block font-semibold mb-2">Upload an Image:</label>
+    <input type="file" (change)="onFileSelected($event)" />
+  </div>
+
+  <!-- Text Question -->
+  <div class="mb-4">
+    <label class="block font-semibold mb-2">Ask a question:</label>
+    <input
+      [(ngModel)]="question"
+      type="text"
+      class="w-full p-2 border border-gray-300 rounded"
+      placeholder="What is in the image?"
+    />
+  </div>
+
+  <!-- Submit Button -->
+  <button
+    (click)="askQuestion()"
+    class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+  >
+    Send
+  </button>
+
+  <!-- Chat / Answer Display -->
+  <div class="mt-6" *ngIf="answer">
+    <h2 class="text-xl font-semibold mb-2">Answer:</h2>
+    <p>{{ answer }}</p>
+  </div>
+</div>
