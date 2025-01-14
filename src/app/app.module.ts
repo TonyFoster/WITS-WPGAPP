@@ -15,6 +15,7 @@ import {provideHttpClient} from '@angular/common/http';
 import {AttendanceConverterComponent} from './attendance-converter/attendance-converter.component';
 import {HotTableModule} from '@handsontable/angular';
 import {registerAllModules} from 'handsontable/registry';
+import { ChatBotComponent } from './image-upload/chat-bot.component';
 
 registerAllModules();
 
@@ -25,7 +26,8 @@ registerAllModules();
     AttendanceRecordsComponent,
     HomeComponent,
     HoldButtonComponent,
-    AttendanceConverterComponent
+    AttendanceConverterComponent,
+    ChatBotComponent
   ],
   imports: [
     BrowserModule,
