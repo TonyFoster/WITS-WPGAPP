@@ -122,4 +122,31 @@ export class HomeComponent implements OnInit {
   chatBot() {
     this.router.navigate(['/chat-bot']).then();
   }
+
+  sendNotification() {
+    if ('Notification' in window) {
+      if (Notification.permission === 'granted') {
+        this.showNotification();
+      } else if (Notification.permission !== 'denied') {
+        console.log('Requesting notification permission...');
+        Notification.requestPermission().then(permission => {
+          console.log('Notification permission:', permission);
+          if (permission === 'granted') {
+            console.log('Notification permission granted!');
+            this.showNotification();
+            console.log('Notification permission granted!');
+          }
+        });
+      }
+    } else {
+      console.log('Browser does not support notifications.');
+    }
+  }
+
+  private showNotification() {
+    console.log('Showing notification...');
+    new Notification('Hello!', {
+      body: 'This is a push notification!'
+    });
+  }
 }
