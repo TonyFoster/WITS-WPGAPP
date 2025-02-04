@@ -128,13 +128,9 @@ export class HomeComponent implements OnInit {
       if (Notification.permission === 'granted') {
         this.showNotification();
       } else if (Notification.permission !== 'denied') {
-        console.log('Requesting notification permission...');
         Notification.requestPermission().then(permission => {
-          console.log('Notification permission:', permission);
           if (permission === 'granted') {
-            console.log('Notification permission granted!');
             this.showNotification();
-            console.log('Notification permission granted!');
           }
         });
       }
@@ -144,9 +140,11 @@ export class HomeComponent implements OnInit {
   }
 
   private showNotification() {
-    console.log('Showing notification...');
-    new Notification('Hello!', {
-      body: 'This is a push notification!'
-    });
+    setTimeout(() => {
+      new Notification('Hello!', {
+        body: 'WWW This is a push notification!'
+      });
+    }, 5000);
+
   }
 }
